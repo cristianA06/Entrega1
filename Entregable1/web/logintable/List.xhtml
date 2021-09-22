@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListLogintableTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListLogintableEmpty}" rendered="#{logintableController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{logintableController.items.rowCount > 0}">
+                    <h:outputText value="#{logintableController.pagination.pageFirstItem + 1}..#{logintableController.pagination.pageLastItem + 1}/#{logintableController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{logintableController.previous}" value="#{bundle.Previous} #{logintableController.pagination.pageSize}" rendered="#{logintableController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{logintableController.next}" value="#{bundle.Next} #{logintableController.pagination.pageSize}" rendered="#{logintableController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{logintableController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListLogintableTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListLogintableTitle_usuario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuario}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListLogintableTitle_password}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.password}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{logintableController.prepareView}" value="#{bundle.ListLogintableViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{logintableController.prepareEdit}" value="#{bundle.ListLogintableEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{logintableController.destroy}" value="#{bundle.ListLogintableDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{logintableController.prepareCreate}" value="#{bundle.ListLogintableCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListLogintableIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

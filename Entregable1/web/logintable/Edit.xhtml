@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditLogintableTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditLogintableLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{logintableController.selected.id}" title="#{bundle.EditLogintableTitle_id}" required="true" requiredMessage="#{bundle.EditLogintableRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditLogintableLabel_usuario}" for="usuario" />
+                    <h:inputText id="usuario" value="#{logintableController.selected.usuario}" title="#{bundle.EditLogintableTitle_usuario}" required="true" requiredMessage="#{bundle.EditLogintableRequiredMessage_usuario}"/>
+                    <h:outputLabel value="#{bundle.EditLogintableLabel_password}" for="password" />
+                    <h:inputText id="password" value="#{logintableController.selected.password}" title="#{bundle.EditLogintableTitle_password}" required="true" requiredMessage="#{bundle.EditLogintableRequiredMessage_password}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{logintableController.update}" value="#{bundle.EditLogintableSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditLogintableViewLink}"/>
+                <br />
+                <h:commandLink action="#{logintableController.prepareList}" value="#{bundle.EditLogintableShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditLogintableIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
