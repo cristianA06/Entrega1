@@ -48,19 +48,16 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandLink action="#{pizzasController.prepareView}" value="#{bundle.ListPizzasViewLink}"/>
+                            <h:commandLink action="#{pizzasController.prepareCreate()}" value="#{bundle.ListPizzasOrdenar}"/>
                             <h:outputText value=" "/>
-                            <h:commandLink action="#{pizzasController.prepareEdit}" value="#{bundle.ListPizzasEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{pizzasController.destroy}" value="#{bundle.ListPizzasDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
                 <br />
-                <h:commandLink action="#{pizzasController.prepareCreate}" value="#{bundle.ListPizzasCreateLink}"/>
+                <h:commandLink action="#{pizzasController.prepareUserList()}" value="#{bundle.ListPizzasCreateLink}"/>
                 <br />
                 <br />
-                <h:link outcome="/indexAdmin" value="#{bundle.ListPizzasIndexLink}"/>
+                <h:link outcome="/index" value="#{bundle.ListPizzasIndexLink}"/>
             </h:form>
         </ui:define>
     </ui:composition>

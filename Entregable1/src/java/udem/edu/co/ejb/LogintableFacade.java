@@ -34,7 +34,7 @@ public class LogintableFacade extends AbstractFacade<Logintable> {
         Logintable loginResponse=null;
         String queryLogin;
         try{
-            queryLogin= "FROM logintable l WHERE l.usuario = ?1 and l.password = ?2";//Busqueda de los datos que se ingresan en la base de datos
+            queryLogin= "FROM Logintable l WHERE l.usuario = ?1 and l.password = ?2";//Busqueda de los datos que se ingresan en la base de datos
             Query query= em.createQuery(queryLogin);
             query.setParameter(1, login.getUsuario());
             query.setParameter(2, login.getPassword());

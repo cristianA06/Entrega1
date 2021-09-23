@@ -1,9 +1,9 @@
 package udem.edu.co.controller;
 
-import udem.edu.co.entities.Logintable;
+import udem.edu.co.entities.Ordenes;
 import udem.edu.co.controller.util.JsfUtil;
 import udem.edu.co.controller.util.PaginationHelper;
-import udem.edu.co.ejb.LogintableFacade;
+import udem.edu.co.ejb.OrdenesFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -18,64 +18,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@Named("logintableController")
+@Named("ordenesController")
 @SessionScoped
-public class LogintableController implements Serializable {
+public class OrdenesController implements Serializable {
 
-    private Logintable current = new Logintable();
+    private Ordenes current;
     private DataModel items = null;
-    
     @EJB
-    //static final org.slf4j.Logger LOG = LoggerFactory.getLogger(LoginController.class);
-    private udem.edu.co.ejb.LogintableFacade ejbFacade;
+    private udem.edu.co.ejb.OrdenesFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    
-    public String login(){
-        System.out.println("Usuario: "+getSelected().getUsuario());
-        System.out.println("Password: "+getSelected().getPassword());
-        System.out.print("login correcto");
-        
-        current.setUsuario(getSelected().getUsuario());
-        current.setPassword(getSelected().getPassword());
-        System.out.println("Current --->"+current.getUsuario());
-        current = getEjbFacade().loginWeb(current);
-        System.out.println("Current --->"+current.getUsuario());
-        //LOG.error("devolvi "+current);
-        
-        if(current !=null && current.getUsuario().equals("user")){
-            return "index.xhtml";
-        }else if(current !=null && current.getUsuario().equals("admin")){
-            //return "welcomePrimefaces.xhtml";
-            return "indexAdmin.xhtml";
-        }else{
-            return "loginUser.xhtml";
-        }
-    }
-    
-    public LogintableController() {
+    public OrdenesController() {
     }
 
-    public LogintableFacade getEjbFacade() {
-        return ejbFacade;
-    }
-
-    public void setEjbFacade(LogintableFacade ejbFacade) {
-        this.ejbFacade = ejbFacade;
-    }
-
-
-    
-    public Logintable getSelected() {
+    public Ordenes getSelected() {
         if (current == null) {
-            current = new Logintable();
+            current = new Ordenes();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private LogintableFacade getFacade() {
+    private OrdenesFacade getFacade() {
         return ejbFacade;
     }
 
@@ -103,13 +68,13 @@ public class LogintableController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Logintable) getItems().getRowData();
+        current = (Ordenes) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Logintable();
+        current = new Ordenes();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -117,7 +82,7 @@ public class LogintableController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LogintableCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("OrdenesCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -126,7 +91,7 @@ public class LogintableController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Logintable) getItems().getRowData();
+        current = (Ordenes) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -134,7 +99,7 @@ public class LogintableController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LogintableUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("OrdenesUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -143,7 +108,7 @@ public class LogintableController implements Serializable {
     }
 
     public String destroy() {
-        current = (Logintable) getItems().getRowData();
+        current = (Ordenes) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -167,7 +132,7 @@ public class LogintableController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LogintableDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("OrdenesDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -223,21 +188,21 @@ public class LogintableController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Logintable getLogintable(java.lang.Integer id) {
+    public Ordenes getOrdenes(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Logintable.class)
-    public static class LogintableControllerConverter implements Converter {
+    @FacesConverter(forClass = Ordenes.class)
+    public static class OrdenesControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            LogintableController controller = (LogintableController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "logintableController");
-            return controller.getLogintable(getKey(value));
+            OrdenesController controller = (OrdenesController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "ordenesController");
+            return controller.getOrdenes(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -257,15 +222,14 @@ public class LogintableController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Logintable) {
-                Logintable o = (Logintable) object;
+            if (object instanceof Ordenes) {
+                Ordenes o = (Ordenes) object;
                 return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Logintable.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Ordenes.class.getName());
             }
         }
 
-        
     }
 
 }

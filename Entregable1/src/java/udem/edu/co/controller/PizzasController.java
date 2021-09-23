@@ -62,6 +62,11 @@ public class PizzasController implements Serializable {
         return pagination;
     }
 
+    public String prepareUserList() {
+        recreateModel();
+        return "ListUser";
+    }
+
     public String prepareList() {
         recreateModel();
         return "List";
@@ -73,10 +78,16 @@ public class PizzasController implements Serializable {
         return "View";
     }
 
+    public String prepareUserView() {
+        current = (Pizzas) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "Ordenar";
+    }
+
     public String prepareCreate() {
         current = new Pizzas();
         selectedItemIndex = -1;
-        return "Create";
+        return "CreateUser";
     }
 
     public String create() {
@@ -93,7 +104,7 @@ public class PizzasController implements Serializable {
     public String prepareEdit() {
         current = (Pizzas) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        return "Ordenar";
     }
 
     public String update() {
