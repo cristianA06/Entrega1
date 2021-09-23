@@ -24,6 +24,7 @@ public class LogintableController implements Serializable {
 
     private Logintable current;
     private DataModel items = null;
+    
     @EJB
     //static final org.slf4j.Logger LOG = LoggerFactory.getLogger(LoginController.class);
     private udem.edu.co.ejb.LogintableFacade ejbFacade;
