@@ -46,9 +46,9 @@
                                 <h:outputText value="usuario" />
                                 <p:inputText id="user" value="#{logintableController.selected.usuario}" required="true" maxlength="25" />
                                 <h:outputText value="password" />
-                                <p:inputText id="password" value="#{logintableController.selected.password}" />
+                                <h:inputSecret id="password" value="#{logintableController.selected.password}" />
                             </h:panelGrid>
-                            <p:commandButton value="Aceptar" id="ajax" action="index.xhtml" style="margin-right:20px;"  />
+                            <p:commandButton value="Aceptar" id="ajax" action="#{logintableController.login()}" style="margin-right:20px;"  />
                         </p:panel>
                     </h:form>
                 </p:layoutUnit>

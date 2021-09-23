@@ -29,6 +29,13 @@ public class LogintableController implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
+    
+    public String login(){
+        System.out.println("Usuario: "+getSelected().getUsuario());
+        System.out.println("Password: "+getSelected().getPassword());
+        return "index.xhtml";
+    }
+    
     public LogintableController() {
     }
 
