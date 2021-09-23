@@ -25,6 +25,7 @@ public class LogintableController implements Serializable {
     private Logintable current;
     private DataModel items = null;
     @EJB
+    //static final org.slf4j.Logger LOG = LoggerFactory.getLogger(LoginController.class);
     private udem.edu.co.ejb.LogintableFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
@@ -33,12 +34,32 @@ public class LogintableController implements Serializable {
     public String login(){
         System.out.println("Usuario: "+getSelected().getUsuario());
         System.out.println("Password: "+getSelected().getPassword());
-        return "index.xhtml";
+        System.out.print("login correcto");
+        
+        current = getEjbFacade().loginWeb(current);
+        //LOG.error("devolvi "+current);
+        
+        if(current !=null){
+            
+            return "index.xhtml";
+        }else{
+            return "welcomePrimefaces.xhtml";
+        }
     }
     
     public LogintableController() {
     }
 
+    public LogintableFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade(LogintableFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+
+    
     public Logintable getSelected() {
         if (current == null) {
             current = new Logintable();
@@ -237,6 +258,7 @@ public class LogintableController implements Serializable {
             }
         }
 
+        
     }
 
 }
