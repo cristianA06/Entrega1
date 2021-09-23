@@ -39,8 +39,18 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
-                    Login
-                    
+                    <h:form> 
+                        <p:panel id="basic" header="Login" style="margin-bottom:20px">
+                            <h1>#{bundle.TittleLogin}</h1>
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <h:outputText value="usuario" />
+                                <p:inputText id="user" value="#{logintableController.selected.usuario}" required="true" maxlength="25" />
+                                <h:outputText value="password" />
+                                <p:inputText id="password" value="#{logintableController.selected.password}" />
+                            </h:panelGrid>
+                            <p:commandButton value="Aceptar" id="ajax" action="index.xhtml" style="margin-right:20px;"  />
+                        </p:panel>
+                    </h:form>
                 </p:layoutUnit>
 
             </p:layout>
