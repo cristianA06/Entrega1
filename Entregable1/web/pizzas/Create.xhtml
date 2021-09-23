@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreatePizzasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreatePizzasLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{pizzasController.selected.id}" title="#{bundle.CreatePizzasTitle_id}" required="true" requiredMessage="#{bundle.CreatePizzasRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.CreatePizzasLabel_nombre}" for="nombre" />
+                    <h:inputText id="nombre" value="#{pizzasController.selected.nombre}" title="#{bundle.CreatePizzasTitle_nombre}" required="true" requiredMessage="#{bundle.CreatePizzasRequiredMessage_nombre}"/>
+                    <h:outputLabel value="#{bundle.CreatePizzasLabel_descripcion}" for="descripcion" />
+                    <h:inputText id="descripcion" value="#{pizzasController.selected.descripcion}" title="#{bundle.CreatePizzasTitle_descripcion}" required="true" requiredMessage="#{bundle.CreatePizzasRequiredMessage_descripcion}"/>
+                    <h:outputLabel value="#{bundle.CreatePizzasLabel_precio}" for="precio" />
+                    <h:inputText id="precio" value="#{pizzasController.selected.precio}" title="#{bundle.CreatePizzasTitle_precio}" required="true" requiredMessage="#{bundle.CreatePizzasRequiredMessage_precio}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{pizzasController.create}" value="#{bundle.CreatePizzasSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{pizzasController.prepareList}" value="#{bundle.CreatePizzasShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreatePizzasIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

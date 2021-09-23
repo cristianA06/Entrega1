@@ -1,9 +1,9 @@
 package udem.edu.co.controller;
 
-import udem.edu.co.entities.Logintable;
+import udem.edu.co.entities.Pizzas;
 import udem.edu.co.controller.util.JsfUtil;
 import udem.edu.co.controller.util.PaginationHelper;
-import udem.edu.co.ejb.LogintableFacade;
+import udem.edu.co.ejb.PizzasFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -18,59 +18,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@Named("logintableController")
+@Named("pizzasController")
 @SessionScoped
-public class LogintableController implements Serializable {
+public class PizzasController implements Serializable {
 
-    private Logintable current;
+    private Pizzas current;
     private DataModel items = null;
-    
     @EJB
-    //static final org.slf4j.Logger LOG = LoggerFactory.getLogger(LoginController.class);
-    private udem.edu.co.ejb.LogintableFacade ejbFacade;
+    private udem.edu.co.ejb.PizzasFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    
-    public String login(){
-        System.out.println("Usuario: "+getSelected().getUsuario());
-        System.out.println("Password: "+getSelected().getPassword());
-        System.out.print("login correcto");
-        
-        current = getEjbFacade().loginWeb(current);
-        //LOG.error("devolvi "+current);
-        
-        if(current !=null){
-            
-            return "index.xhtml";
-        }else{
-            //return "welcomePrimefaces.xhtml";
-            return "index.xhtml";
-        }
-    }
-    
-    public LogintableController() {
+    public PizzasController() {
     }
 
-    public LogintableFacade getEjbFacade() {
-        return ejbFacade;
-    }
-
-    public void setEjbFacade(LogintableFacade ejbFacade) {
-        this.ejbFacade = ejbFacade;
-    }
-
-
-    
-    public Logintable getSelected() {
+    public Pizzas getSelected() {
         if (current == null) {
-            current = new Logintable();
+            current = new Pizzas();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private LogintableFacade getFacade() {
+    private PizzasFacade getFacade() {
         return ejbFacade;
     }
 
@@ -98,13 +68,13 @@ public class LogintableController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Logintable) getItems().getRowData();
+        current = (Pizzas) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Logintable();
+        current = new Pizzas();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -112,7 +82,7 @@ public class LogintableController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LogintableCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PizzasCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -121,7 +91,7 @@ public class LogintableController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Logintable) getItems().getRowData();
+        current = (Pizzas) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -129,7 +99,7 @@ public class LogintableController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LogintableUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PizzasUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -138,7 +108,7 @@ public class LogintableController implements Serializable {
     }
 
     public String destroy() {
-        current = (Logintable) getItems().getRowData();
+        current = (Pizzas) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -162,7 +132,7 @@ public class LogintableController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LogintableDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PizzasDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -218,21 +188,21 @@ public class LogintableController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Logintable getLogintable(java.lang.Integer id) {
+    public Pizzas getPizzas(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Logintable.class)
-    public static class LogintableControllerConverter implements Converter {
+    @FacesConverter(forClass = Pizzas.class)
+    public static class PizzasControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            LogintableController controller = (LogintableController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "logintableController");
-            return controller.getLogintable(getKey(value));
+            PizzasController controller = (PizzasController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "pizzasController");
+            return controller.getPizzas(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -252,15 +222,14 @@ public class LogintableController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Logintable) {
-                Logintable o = (Logintable) object;
+            if (object instanceof Pizzas) {
+                Pizzas o = (Pizzas) object;
                 return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Logintable.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Pizzas.class.getName());
             }
         }
 
-        
     }
 
 }
